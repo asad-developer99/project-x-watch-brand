@@ -1,0 +1,229 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "One site a day: Round 0 to filming",
+    "output": "workflow.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      840,
+      540
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "frontend": {
+          "label": "Claude round"
+        },
+        "backend": {
+          "label": "Kit command"
+        },
+        "database": {
+          "label": "Saved output"
+        },
+        "cloud": {
+          "label": "Filming"
+        },
+        "external": {
+          "label": "You"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "you",
+      "label": "You"
+    },
+    {
+      "id": "claude",
+      "label": "Claude Code"
+    },
+    {
+      "id": "kit",
+      "label": "Kit commands"
+    }
+  ],
+  "phases": [
+    {
+      "id": "direction",
+      "label": "Design direction",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "build",
+      "label": "Build + motion",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "ship",
+      "label": "Polish + film",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "brief",
+    "round0",
+    "round1",
+    "round2",
+    "round3",
+    "film"
+  ],
+  "nodes": [
+    {
+      "id": "brief",
+      "lane": "you",
+      "col": 0,
+      "type": "external",
+      "label": "Brief",
+      "sublabel": "brand · mood · assets"
+    },
+    {
+      "id": "assets",
+      "lane": "you",
+      "col": 1,
+      "type": "external",
+      "label": "Make assets",
+      "sublabel": "AI video + cut-outs"
+    },
+    {
+      "id": "round0",
+      "lane": "claude",
+      "col": 1,
+      "type": "frontend",
+      "label": "Round 0",
+      "sublabel": "site/DESIGN.md"
+    },
+    {
+      "id": "round1",
+      "lane": "claude",
+      "col": 2,
+      "type": "frontend",
+      "label": "Round 1",
+      "sublabel": "structure"
+    },
+    {
+      "id": "round2",
+      "lane": "claude",
+      "col": 3,
+      "type": "frontend",
+      "label": "Round 2",
+      "sublabel": "motion"
+    },
+    {
+      "id": "round3",
+      "lane": "claude",
+      "col": 4,
+      "type": "frontend",
+      "label": "Round 3",
+      "sublabel": "polish"
+    },
+    {
+      "id": "check",
+      "lane": "kit",
+      "col": 2,
+      "type": "backend",
+      "label": "check + build",
+      "sublabel": "npm run"
+    },
+    {
+      "id": "archive",
+      "lane": "kit",
+      "col": 4,
+      "type": "database",
+      "label": "Log + archive",
+      "sublabel": "SITES-LOG · archive/"
+    },
+    {
+      "id": "film",
+      "lane": "kit",
+      "col": 5,
+      "type": "cloud",
+      "label": "Film reel",
+      "sublabel": "?record=1",
+      "tag": "9:16"
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "round0",
+      "label": "/new-site",
+      "variant": "emphasis"
+    },
+    {
+      "from": "round0",
+      "to": "assets",
+      "label": "prompts",
+      "variant": "dashed"
+    },
+    {
+      "from": "round0",
+      "to": "round1",
+      "label": "ok",
+      "variant": "emphasis"
+    },
+    {
+      "from": "assets",
+      "to": "round1",
+      "label": "raw/ + images"
+    },
+    {
+      "from": "round1",
+      "to": "check"
+    },
+    {
+      "from": "round1",
+      "to": "round2",
+      "label": "ok",
+      "variant": "emphasis"
+    },
+    {
+      "from": "round2",
+      "to": "round3",
+      "label": "ok",
+      "variant": "emphasis"
+    },
+    {
+      "from": "round3",
+      "to": "archive"
+    },
+    {
+      "from": "round3",
+      "to": "film",
+      "label": "ok",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Stops for your ok",
+      "items": [
+        "Round 0: approve direction · Round 1: review ?static=1",
+        "Round 2: send a slow screen recording"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Every round",
+      "items": [
+        "npm run check and npm run build must pass",
+        "Different from the last 3 sites (6 of 8 choices)"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Film",
+      "items": [
+        "npm run build && npm start",
+        "?record=1, or &at=HH:MM:SS for two devices"
+      ]
+    }
+  ]
+}

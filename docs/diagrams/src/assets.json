@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Asset pipeline: AI shots to scroll frames",
+    "output": "assets.html",
+    "viewBox": [
+      1080,
+      560
+    ],
+    "quality_profile": "showcase"
+  },
+  "stages": [
+    {
+      "label": "Generate"
+    },
+    {
+      "label": "Drop in"
+    },
+    {
+      "label": "Process"
+    },
+    {
+      "label": "public/"
+    },
+    {
+      "label": "Used by"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "veo",
+      "type": "external",
+      "label": "Google Flow",
+      "sublabel": "8 s, 16:9 video",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "banana",
+      "type": "external",
+      "label": "Nano Banana",
+      "sublabel": "stills + cut-outs",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "raw",
+      "type": "database",
+      "label": "raw/*.mp4",
+      "sublabel": "source video",
+      "stage": 1,
+      "row": 0
+    },
+    {
+      "id": "drop",
+      "type": "database",
+      "label": "images/<slug>/",
+      "sublabel": "photos + PNGs",
+      "stage": 1,
+      "row": 2
+    },
+    {
+      "id": "frames",
+      "type": "backend",
+      "label": "npm run frames",
+      "sublabel": "ffmpeg → webp",
+      "stage": 2,
+      "row": 0,
+      "tag": "--zoom 1.2"
+    },
+    {
+      "id": "crop",
+      "type": "backend",
+      "label": "Crop + WebP",
+      "sublabel": "sharp",
+      "stage": 2,
+      "row": 2,
+      "tag": "hide watermark"
+    },
+    {
+      "id": "seq",
+      "type": "database",
+      "label": "frames/<slug>",
+      "sublabel": "~160 webp + manifest",
+      "stage": 3,
+      "row": 0,
+      "tag": "< 15 MB"
+    },
+    {
+      "id": "web",
+      "type": "database",
+      "label": "images/<slug>/web",
+      "sublabel": "1920 px webp",
+      "stage": 3,
+      "row": 2
+    },
+    {
+      "id": "player",
+      "type": "frontend",
+      "label": "useFramePlayer",
+      "sublabel": "canvas scrub",
+      "stage": 4,
+      "row": 0
+    },
+    {
+      "id": "sections",
+      "type": "frontend",
+      "label": "site/ sections",
+      "sublabel": "cards · photos",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "from": "veo",
+      "to": "raw",
+      "label": "mp4",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "banana",
+      "to": "drop",
+      "label": "png / webp",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "raw",
+      "to": "frames",
+      "label": "video",
+      "route": "straight"
+    },
+    {
+      "from": "drop",
+      "to": "crop",
+      "label": "originals",
+      "route": "straight"
+    },
+    {
+      "from": "frames",
+      "to": "seq",
+      "label": "frames",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "crop",
+      "to": "web",
+      "label": "web copies",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "seq",
+      "to": "player",
+      "label": "scroll",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "web",
+      "to": "sections",
+      "label": "<img>",
+      "variant": "emphasis",
+      "route": "straight"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Video rules",
+      "items": [
+        "One continuous shot, 8 s, no text",
+        "Prompts: docs/AI-VIDEO-PROMPTS.md"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Per-site folders",
+      "items": [
+        "public/images/<slug>/ and public/frames/<slug>-<name>",
+        "Sites never overwrite each other's assets"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Guard rail",
+      "items": [
+        "npm run check: every path used in site/ exists"
+      ]
+    }
+  ]
+}

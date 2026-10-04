@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Showreel Kit: how the project fits together",
+    "output": "architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "docs",
+      "type": "external",
+      "label": "docs/",
+      "sublabel": "design menu · sites log",
+      "pos": [
+        40,
+        140
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "patterns",
+      "type": "frontend",
+      "label": "components/patterns",
+      "sublabel": "section library",
+      "pos": [
+        260,
+        140
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "engine",
+      "type": "backend",
+      "label": "components/engine",
+      "sublabel": "scroll · loader · record",
+      "pos": [
+        490,
+        140
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "same every day"
+    },
+    {
+      "id": "lib",
+      "type": "backend",
+      "label": "lib/",
+      "sublabel": "gsap · frames · atTime",
+      "pos": [
+        720,
+        140
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "claude",
+      "type": "external",
+      "label": "Claude Code",
+      "sublabel": "CLAUDE.md playbook",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "site",
+      "type": "frontend",
+      "label": "site/",
+      "sublabel": "today's site",
+      "pos": [
+        260,
+        300
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "rewritten daily"
+    },
+    {
+      "id": "app",
+      "type": "backend",
+      "label": "app/",
+      "sublabel": "layout + page",
+      "pos": [
+        490,
+        300
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "next",
+      "type": "cloud",
+      "label": "Next.js 16",
+      "sublabel": "build + start",
+      "pos": [
+        720,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Browser",
+      "sublabel": "?static · ?record",
+      "pos": [
+        940,
+        300
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "archive",
+      "type": "database",
+      "label": "archive/",
+      "sublabel": "finished sites",
+      "pos": [
+        40,
+        470
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "scripts",
+      "type": "backend",
+      "label": "scripts/",
+      "sublabel": "frames · check · archive",
+      "pos": [
+        260,
+        470
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "assets",
+      "type": "database",
+      "label": "public/",
+      "sublabel": "images + frames",
+      "pos": [
+        720,
+        470
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Shared kit (same every day)",
+      "wraps": [
+        "patterns",
+        "engine",
+        "lib"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "docs-to-claude",
+      "from": "docs",
+      "to": "claude",
+      "label": "reads",
+      "labelDy": 24
+    },
+    {
+      "id": "claude-writes-site",
+      "from": "claude",
+      "to": "site",
+      "label": "writes",
+      "variant": "emphasis"
+    },
+    {
+      "id": "patterns-into-site",
+      "from": "patterns",
+      "to": "site",
+      "label": "copy + restyle",
+      "variant": "dashed",
+      "labelDy": 24
+    },
+    {
+      "id": "site-into-app",
+      "from": "site",
+      "to": "app",
+      "label": "imported",
+      "variant": "emphasis"
+    },
+    {
+      "id": "engine-into-app",
+      "from": "engine",
+      "to": "app",
+      "label": "renders",
+      "labelDy": 24
+    },
+    {
+      "id": "lib-to-engine",
+      "from": "lib",
+      "to": "engine"
+    },
+    {
+      "id": "app-to-next",
+      "from": "app",
+      "to": "next",
+      "variant": "emphasis"
+    },
+    {
+      "id": "next-to-browser",
+      "from": "next",
+      "to": "browser",
+      "label": "HTTP",
+      "variant": "emphasis"
+    },
+    {
+      "id": "assets-to-next",
+      "from": "assets",
+      "to": "next",
+      "label": "static files"
+    },
+    {
+      "id": "site-to-scripts",
+      "from": "site",
+      "to": "scripts",
+      "label": "npm run",
+      "labelDy": 24
+    },
+    {
+      "id": "scripts-to-assets",
+      "from": "scripts",
+      "to": "assets",
+      "label": "frames → webp"
+    },
+    {
+      "id": "scripts-to-archive",
+      "from": "scripts",
+      "to": "archive",
+      "label": "archive"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Shared kit",
+      "items": [
+        "engine/ and lib/ never change for one site",
+        "patterns/ are copied into site/, then restyled"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Today's site",
+      "items": [
+        "site/ holds design, theme, fonts, text, sections",
+        "public/ holds that site's images and frames"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Output",
+      "items": [
+        "Next.js serves one page + /patterns",
+        "?record=1 scrolls it by itself for filming"
+      ]
+    }
+  ]
+}

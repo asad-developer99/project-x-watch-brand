@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Record mode: synced start and section timeline",
+    "output": "record-mode.html",
+    "viewBox": [
+      900,
+      560
+    ],
+    "column_fit": "spread",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "you",
+      "type": "external",
+      "label": "You",
+      "sublabel": "laptop + phone"
+    },
+    {
+      "id": "loader",
+      "type": "frontend",
+      "label": "ClockLoader",
+      "sublabel": "site/components"
+    },
+    {
+      "id": "assets",
+      "type": "database",
+      "label": "public/",
+      "sublabel": "frames + images"
+    },
+    {
+      "id": "record",
+      "type": "backend",
+      "label": "RecordMode",
+      "sublabel": "components/engine"
+    },
+    {
+      "id": "sections",
+      "type": "frontend",
+      "label": "Sections",
+      "sublabel": "data-record-*"
+    },
+    {
+      "id": "lenis",
+      "type": "messagebus",
+      "label": "Lenis",
+      "sublabel": "smooth scroll"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 256,
+      "label": "Load: loader frozen at 00:00"
+    },
+    {
+      "from": 272,
+      "to": 370,
+      "label": "At the set time"
+    },
+    {
+      "from": 386,
+      "to": 486,
+      "label": "Section timeline (41 s)"
+    }
+  ],
+  "messages": [
+    {
+      "from": "you",
+      "to": "loader",
+      "y": 176,
+      "label": "?record=1&at=18:55:00",
+      "variant": "emphasis"
+    },
+    {
+      "from": "loader",
+      "to": "assets",
+      "y": 210,
+      "label": "preload everything",
+      "variant": "default"
+    },
+    {
+      "from": "assets",
+      "to": "loader",
+      "y": 244,
+      "label": "ready",
+      "variant": "return"
+    },
+    {
+      "from": "loader",
+      "to": "record",
+      "y": 290,
+      "label": "intro 2.5 s, overlay gone",
+      "variant": "emphasis"
+    },
+    {
+      "from": "record",
+      "to": "sections",
+      "y": 324,
+      "label": "read stops",
+      "variant": "default"
+    },
+    {
+      "from": "sections",
+      "to": "record",
+      "y": 358,
+      "label": "times + holds",
+      "variant": "return"
+    },
+    {
+      "from": "record",
+      "to": "lenis",
+      "y": 404,
+      "label": "scrollTo(curve(t))",
+      "variant": "emphasis"
+    },
+    {
+      "from": "record",
+      "to": "sections",
+      "y": 438,
+      "label": "record:hold / holdend",
+      "variant": "dashed"
+    },
+    {
+      "from": "record",
+      "to": "you",
+      "y": 472,
+      "label": "console: section starts",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "loader",
+      "from": 170,
+      "to": 298,
+      "type": "frontend"
+    },
+    {
+      "participant": "assets",
+      "from": 204,
+      "to": 250,
+      "type": "database"
+    },
+    {
+      "participant": "record",
+      "from": 284,
+      "to": 480,
+      "type": "backend"
+    },
+    {
+      "participant": "lenis",
+      "from": 398,
+      "to": 446,
+      "type": "messagebus"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Synced start",
+      "items": [
+        "Loader frozen until &at=; intro exactly 2.5 s",
+        "Not ready in time: warns, keeps ticking"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Section timeline",
+      "items": [
+        "data-record-time / -hold on sections",
+        "-mobile variants keep the same total"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Holds",
+      "items": [
+        "record:hold drives in-section motion",
+        "Collection steps M-01 → M-04"
+      ]
+    }
+  ]
+}
